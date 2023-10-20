@@ -45,7 +45,7 @@ const db = mysql.createPool({
   "Che Guevara",
   "Sir Seretse Khama",
 ];
-*/
+
 const figures = [
   /*
   "Emperor Hirohito",
@@ -58,8 +58,6 @@ const figures = [
   "Queen Victoria",
   "14th Dalai Lama",
   "Attila the Hun",
-];
-
   "Queen Elizabeth II",
   "Henry VIII of England",
   "Queen Elizabeth I of England",
@@ -70,15 +68,14 @@ const figures = [
   "Kaiser Wilhelm II",
   "Qin Shi Huang",
   "Caesar Augustus",
-];
-*/
   " William the Conqueror",
   "Elizabeth I",
   "Franz Joseph I of Austria",
   "Louis XIV",
 ];
-/*
+*/
 const figures = [
+  /*
   "Albert Einstein",
   "Robert Oppenheimer",
   "Gavrilo Princep",
@@ -89,6 +86,7 @@ const figures = [
   "Leonardo da Vinci",
   "William Shakespeare",
   "Charles Darwin",
+  
   "Karl Marx",
   "Louis Pasteur",
   "Mahatma Gandhi",
@@ -99,6 +97,7 @@ const figures = [
   "Aristotle",
   "Charles Dickens",
   "Osama bin Laden",
+  
   " Michael Jackson",
   "Martin Luther",
   "Galileo Galilei",
@@ -109,6 +108,7 @@ const figures = [
   "Walt Disney",
   "Charlie Chaplin",
   "John Lennon",
+  
   "Steve Jobs",
   "Henry Ford",
   "Rosa Parks",
@@ -118,12 +118,16 @@ const figures = [
   "Zhang Zongchang",
   "Steve Irwin",
   "Bob Ross",
+  */
   "Douglas MacArthur",
   "Spartacus",
   "Diogenes",
-  "Sigmund Freud"
+  "Sigmund Freud",
+  "Robin Williams",
+  "Alfred Hitchcock",
+  "Benjamin Franklin",
 ];
-*/
+
 const figurePromises = figures.map((figure) => {
   return wiki()
     .page(`${figure}`)
@@ -132,8 +136,8 @@ const figurePromises = figures.map((figure) => {
       const imagePromise = page.pageImage();
       const altPromise = page.info("alt");
       const urlPromise = page.url();
-      let titlePromise = page.info("succession");
-      let timePromise = page.info("reign");
+      const titlePromise = page.info("knownFor");
+      //const timePromise = page.info("reign");
 
       //titlePromise = page.info("office");
 
@@ -152,13 +156,13 @@ const figurePromises = figures.map((figure) => {
         altPromise,
         urlPromise,
         titlePromise,
-        timePromise,
+        // timePromise,
       ]);
     }) //display the information
-    .then(([image, imageAlt, url, title, time]) => {
+    .then(([image, imageAlt, url, title]) => {
       //insert the information into the database
-      const sqlInsert = `INSERT INTO hf(name, image_url,image_alt, title, page_url, title_time) VALUES (?, ?, ?, ?, ? ,?);`;
-      const values = [figure, image, imageAlt, title, url, time];
+      const sqlInsert = `INSERT INTO hf(name, image_url,image_alt, title, page_url) VALUES (?, ?, ?, ?, ?);`;
+      const values = [figure, image, imageAlt, title, url];
 
       return new Promise((resolve, reject) => {
         db.query(sqlInsert, values, (err, results) => {
@@ -175,7 +179,7 @@ const figurePromises = figures.map((figure) => {
 
 Promise.all(figurePromises)
   .then(() => {
-    // Log text if successful
+    //show text if successful
     app.get("/", (req, res) => {
       res.send("Inserted");
     });
