@@ -11,10 +11,118 @@ const db = mysql.createPool({
   database: "hfgame",
 });
 //array with historical figures names
-const ok = ["Alexander The Great", "Adolf Hilter"];
+const figures = [
+  "Winston Churchill",
+  "Adolf Hilter",
+  "Franklin Roosevelt",
+  "Joseph Stalin",
+  "Harry Truman",
+  "Woodrow Wilson",
+  "Vladimir Lenin",
+  "Julius Caesar",
+  "George Washington",
+  "Napoleon Bonaparte",
+  "Abraham Lincoln",
+  "Mao Zedong",
+  "Thomas Jefferson",
+  "John F. Kennedy",
+  "Nelson Mandela",
+  "Mikhail Gorbachev",
+  "Theodore Roosevelt",
+  "Pol Pot",
+  "Richard Nixon",
+  "Saddam Hussein",
+  "George W. Bush",
+  "Kim Il Sung",
+  "Ismail Enver Pasha",
+  "Ronald Reagan",
+  "General Josip Tito",
+  "José de San Martín",
+  "Simon Bolivar",
+  "Robert Mugabe",
+  "Muammar al-Gaddafi",
+  "Che Guevara",
+  "Sir Seretse Khama",
+  "",
+];
+/*
+const figures = [
+  "Emperor Hirohito",
+  "Tsar Nicholas II",
+  "Alexander the Great",
+  "King Arthur",
+  "Genghis Khan",
+  "Cleopatra",
+  "Catherine the Great",
+  "Queen Victoria",
+  "14th Dalai Lama",
+  "Attila the Hun",
+  "Queen Elizabeth II",
+  " Henry VIII of England",
+  "Queen Elizabeth I of England",
+  "Vlad the Impaler",
+  "Cyrus the Great",
+  "Constantine the Great",
+  "Charlemagne",
+  "Kaiser Wilhelm II",
+  "Qin Shi Huang",
+  "Caesar Augustus",
+  " William the Conqueror",
+  "Elizabeth I",
+  "Franz Joseph I of Austria",
+  "Louis XIV",
+];
+
+
+const figures = [
+  "Albert Einstein",
+  "Robert Oppenheimer",
+  "Gavrilo Princep",
+  "Thomas Edison",
+  "Nikola Tesla",
+  "Socrates",
+  "Christopher Columbus",
+  "Leonardo da Vinci",
+  "William Shakespeare",
+  "Charles Darwin",
+  "Karl Marx",
+  "Louis Pasteur",
+  "Mahatma Gandhi",
+  "Mother Teresa",
+  "Pope John Paul II",
+  "Martin Luther King",
+  "Muhammad Ali",
+  "Aristotle",
+  "Charles Dickens",
+  "Osama bin Laden",
+  " Michael Jackson",
+  "Martin Luther",
+  "Galileo Galilei",
+  "Plato",
+  "Frederick Douglass",
+  "Malcolm X",
+  "Elvis Presley",
+  "Walt Disney",
+  "Charlie Chaplin",
+  "John Lennon",
+  "Steve Jobs",
+  "Henry Ford",
+  "Rosa Parks",
+  "Pablo Picasso",
+  "Grigori Rasputin",
+  "Sun Tzu",
+  "Zhang Zongchang",
+  "Steve Irwin",
+  "Bob Ross",
+  "Douglas MacArthur",
+  "Spartacus",
+  "Diogenes",
+  "Sigmund Freud"
+];
+*/
 for (let i = 0; i < 2; i++) {
   wiki()
-    .page(`${ok[i]}`)
+    .page(`${figures[i]}`)
     .then((page) => {
       //GET required information from wiki API
       const imagePromise = page.pageImage();
@@ -51,7 +159,7 @@ for (let i = 0; i < 2; i++) {
       console.log("Time:", time);
 
       //insert the information into the database
-      const sqlInsert = `INSERT INTO hf 
+      const sqlInsert = `INSERTt INTO hf 
                         (name, image_url,image_alt, title, page_url, title_time)
                          VALUES (?, ?, ?, ?, ? ,?);`;
       const values = [ok[i], image, imageAlt, title, url, time];

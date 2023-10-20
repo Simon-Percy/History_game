@@ -3,11 +3,11 @@ import wiki from "wikijs";
 console.log("yesss");
 
 wiki()
-  .page("Alexander The Great")
+  .page("Diogenes")
   .then((page) => {
     const imagePromise = page.pageImage();
     const altPromise = page.info("office");
-    const urlPromise = page.info("reign");
+    const urlPromise = page.info();
     const titlePromise = page.info("succession");
 
     return Promise.all([imagePromise, altPromise, urlPromise, titlePromise]);
