@@ -11,7 +11,8 @@ const db = mysql.createPool({
   database: "hfgame",
 });
 //array with historical figures names
-const figures = [
+
+/*const figures = [
   "Winston Churchill",
   "Adolf Hilter",
   "Franklin Roosevelt",
@@ -43,9 +44,8 @@ const figures = [
   "Muammar al-Gaddafi",
   "Che Guevara",
   "Sir Seretse Khama",
-  "",
 ];
-/*
+*/
 const figures = [
   "Emperor Hirohito",
   "Tsar Nicholas II",
@@ -72,8 +72,7 @@ const figures = [
   "Franz Joseph I of Austria",
   "Louis XIV",
 ];
-
-
+/*
 const figures = [
   "Albert Einstein",
   "Robert Oppenheimer",
@@ -120,9 +119,9 @@ const figures = [
   "Sigmund Freud"
 ];
 */
-for (let i = 0; i < 2; i++) {
-  wiki()
-    .page(`${figures[i]}`)
+const figurePromises = figures.map((figure) => {
+  return wiki()
+    .page(`${figure}`)
     .then((page) => {
       //GET required information from wiki API
       const imagePromise = page.pageImage();
@@ -152,17 +151,11 @@ for (let i = 0; i < 2; i++) {
       ]);
     }) //display the information
     .then(([image, imageAlt, url, title, time]) => {
-      console.log("Image:", image);
-      console.log("Image Alt:", imageAlt);
-      console.log("URL:", url);
-      console.log("Title:", title);
-      console.log("Time:", time);
-
       //insert the information into the database
-      const sqlInsert = `INSERTt INTO hf 
-                        (name, image_url,image_alt, title, page_url, title_time)
-                         VALUES (?, ?, ?, ?, ? ,?);`;
-      const values = [ok[i], image, imageAlt, title, url, time];
+      const sqlInsert = `INSERT INTO hf 
+                          (name, image_url,image_alt, title, page_url, title_time)
+                           VALUES (?, ?, ?, ?, ? ,?);`;
+      const values = [figure, image, imageAlt, title, url, time];
 
       return new Promise((resolve, reject) => {
         db.query(sqlInsert, values, (err, results) => {
@@ -174,18 +167,19 @@ for (let i = 0; i < 2; i++) {
           }
         });
       });
-    })
-    .then(() => {
-      //log text if successful
-      app.get("/", (req, res) => {
-        res.send("Inserted");
-      });
-
-      app.listen(5174, () => {
-        console.log("running on 5174");
-      });
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
-}
+});
+
+Promise.all(figurePromises)
+  .then(() => {
+    // Log text if successful
+    app.get("/", (req, res) => {
+      res.send("Inserted");
+    });
+    app.listen(5174, () => {
+      console.log("running on 5174");
+    });
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });

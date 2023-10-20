@@ -3,7 +3,7 @@ import wiki from "wikijs";
 console.log("yesss");
 
 wiki()
-  .page("Diogenes")
+  .page("Napoleon Bonaparte")
   .then((page) => {
     const imagePromise = page.pageImage();
     const altPromise = page.info("office");
