@@ -47,6 +47,7 @@ const db = mysql.createPool({
 ];
 */
 const figures = [
+  /*
   "Emperor Hirohito",
   "Tsar Nicholas II",
   "Alexander the Great",
@@ -57,8 +58,10 @@ const figures = [
   "Queen Victoria",
   "14th Dalai Lama",
   "Attila the Hun",
+];
+
   "Queen Elizabeth II",
-  " Henry VIII of England",
+  "Henry VIII of England",
   "Queen Elizabeth I of England",
   "Vlad the Impaler",
   "Cyrus the Great",
@@ -67,6 +70,8 @@ const figures = [
   "Kaiser Wilhelm II",
   "Qin Shi Huang",
   "Caesar Augustus",
+];
+*/
   " William the Conqueror",
   "Elizabeth I",
   "Franz Joseph I of Austria",
@@ -127,20 +132,20 @@ const figurePromises = figures.map((figure) => {
       const imagePromise = page.pageImage();
       const altPromise = page.info("alt");
       const urlPromise = page.url();
-      let titlePromise;
-      let timePromise;
+      let titlePromise = page.info("succession");
+      let timePromise = page.info("reign");
 
-      titlePromise = page.info("office");
+      //titlePromise = page.info("office");
 
-      const termStartPromise = page.info("termStart");
-      const termEndPromise = page.info("termEnd");
+      //const termStartPromise = page.info("termStart");
+      //const termEndPromise = page.info("termEnd");
 
-      timePromise = Promise.all([termStartPromise, termEndPromise]).then(
+      /* timePromise = Promise.all([termStartPromise, termEndPromise]).then(
         ([termStart, termEnd]) => {
           return `${termStart} - ${termEnd}`;
         }
       );
-
+        */
       //return all Promises as one
       return Promise.all([
         imagePromise,
@@ -152,9 +157,7 @@ const figurePromises = figures.map((figure) => {
     }) //display the information
     .then(([image, imageAlt, url, title, time]) => {
       //insert the information into the database
-      const sqlInsert = `INSERT INTO hf 
-                          (name, image_url,image_alt, title, page_url, title_time)
-                           VALUES (?, ?, ?, ?, ? ,?);`;
+      const sqlInsert = `INSERT INTO hf(name, image_url,image_alt, title, page_url, title_time) VALUES (?, ?, ?, ?, ? ,?);`;
       const values = [figure, image, imageAlt, title, url, time];
 
       return new Promise((resolve, reject) => {
