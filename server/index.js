@@ -12,7 +12,7 @@ const db = mysql.createPool({
 });
 //array with historical figures names
 
-/*const figures = [
+const figures = [
   "Winston Churchill",
   "Adolf Hilter",
   "Franklin Roosevelt",
@@ -44,10 +44,7 @@ const db = mysql.createPool({
   "Muammar al-Gaddafi",
   "Che Guevara",
   "Sir Seretse Khama",
-];
 
-const figures = [
-  /*
   "Emperor Hirohito",
   "Tsar Nicholas II",
   "Alexander the Great",
@@ -72,10 +69,7 @@ const figures = [
   "Elizabeth I",
   "Franz Joseph I of Austria",
   "Louis XIV",
-];
-*/
-const figures = [
-  /*
+
   "Albert Einstein",
   "Robert Oppenheimer",
   "Gavrilo Princep",
@@ -86,7 +80,6 @@ const figures = [
   "Leonardo da Vinci",
   "William Shakespeare",
   "Charles Darwin",
-  
   "Karl Marx",
   "Louis Pasteur",
   "Mahatma Gandhi",
@@ -97,7 +90,6 @@ const figures = [
   "Aristotle",
   "Charles Dickens",
   "Osama bin Laden",
-  
   " Michael Jackson",
   "Martin Luther",
   "Galileo Galilei",
@@ -108,7 +100,6 @@ const figures = [
   "Walt Disney",
   "Charlie Chaplin",
   "John Lennon",
-  
   "Steve Jobs",
   "Henry Ford",
   "Rosa Parks",
@@ -118,7 +109,6 @@ const figures = [
   "Zhang Zongchang",
   "Steve Irwin",
   "Bob Ross",
-  */
   "Douglas MacArthur",
   "Spartacus",
   "Diogenes",
@@ -127,40 +117,41 @@ const figures = [
   "Alfred Hitchcock",
   "Benjamin Franklin",
 ];
-
+/*
 const figurePromises = figures.map((figure) => {
   return wiki()
     .page(`${figure}`)
     .then((page) => {
-      //GET required information from wiki API
+      GET required information from wiki API
       const imagePromise = page.pageImage();
       const altPromise = page.info("alt");
       const urlPromise = page.url();
       const titlePromise = page.info("knownFor");
-      //const timePromise = page.info("reign");
+      const timePromise = page.info("reign");
 
-      //titlePromise = page.info("office");
+      titlePromise = page.info("office");
 
-      //const termStartPromise = page.info("termStart");
-      //const termEndPromise = page.info("termEnd");
+      const termStartPromise = page.info("termStart");
+      const termEndPromise = page.info("termEnd");
 
       /* timePromise = Promise.all([termStartPromise, termEndPromise]).then(
         ([termStart, termEnd]) => {
           return `${termStart} - ${termEnd}`;
         }
       );
-        */
-      //return all Promises as one
+        
+      return all Promises as one
       return Promise.all([
         imagePromise,
         altPromise,
         urlPromise,
         titlePromise,
-        // timePromise,
+         timePromise,
       ]);
     }) //display the information
     .then(([image, imageAlt, url, title]) => {
-      //insert the information into the database
+      insert the information into the database
+      
       const sqlInsert = `INSERT INTO hf(name, image_url,image_alt, title, page_url) VALUES (?, ?, ?, ?, ?);`;
       const values = [figure, image, imageAlt, title, url];
 
@@ -179,7 +170,7 @@ const figurePromises = figures.map((figure) => {
 
 Promise.all(figurePromises)
   .then(() => {
-    //show text if successful
+    show text if successful
     app.get("/", (req, res) => {
       res.send("Inserted");
     });
@@ -190,3 +181,23 @@ Promise.all(figurePromises)
   .catch((error) => {
     console.error("Error:", error);
   });
+*/
+
+//select all inserted data from the database
+
+const sqlSelect = "SELECT * FROM hf";
+app.get("/", (req, res) => {
+  db.query(sqlSelect, (err, results) => {
+    if (err) {
+      console.error("Database error: " + err.message);
+      res.status(500).send("Database error: " + err.message);
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+app.listen(5172, () => {
+  console.log("Its running");
+});
