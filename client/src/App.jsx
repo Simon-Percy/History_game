@@ -24,7 +24,6 @@ function App() {
   }, []);
   const boxs = [1, 2, 3, 4, 5];
   const [cardcount, SetCardsCount] = useState(1);
-  console.dir(info);
 
   return (
     <div className="box-wrapper">
