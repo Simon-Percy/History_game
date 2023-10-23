@@ -3,7 +3,6 @@ import React from "react";
 const Cards = ({ name, imageUrl, title }) => {
   return (
     <div className="cards-box">
-      let's see
       <h1>{name}</h1>
       <img className="image" src={imageUrl} />
       <p className="title">{title}</p>

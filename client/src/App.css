@@ -1,19 +1,29 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   background-color: grey;
   font-family: sans-serif;
 }
 
 .box-wrapper {
-  display: inline-block;
-  margin: 30px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .cards-box {
-  width: 15rem;
+  margin: 10px 20px;
+  width: 13rem;
   text-align: center;
-  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-evenly;
+  justify-content: center;
+
+  padding: 5px;
   border: 1px solid black;
   border-radius: 1rem;
+}
+.image {
+  max-width: 100px;
 }
