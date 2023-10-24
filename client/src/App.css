@@ -30,3 +30,9 @@
 .tier-buttons {
   margin: 6px;
 }
+.submit-Button {
+  float: right;
+  position: fixed;
+
+  padding: 100px;
+}
