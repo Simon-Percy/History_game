@@ -8,32 +8,31 @@ function App() {
   /*info being fetched from API*/
   const [info, setInfo] = useState(null);
   /*tiers for rating*/
-  const [tiers, setTiers] = useState({
-    tier1: 0,
-    tier2: 0,
-    tier3: 0,
-    tier4: 0,
-    tier5: 0,
-    tier6: 0,
-    tier7: 0,
-  });
-  /*average tier for each figure*/
-  const [avgTier, setAvgTier] = useState(0);
-
-  /*add all the tiers for that figure and find the average*/
+  const [tiers, setTiers] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const total = Object.values(tiers).reduce(
-      (acc, currentValue) => acc + currentValue
-    );
-    const average = total / 7;
-    setAvgTier(average);
-    console.log(average);
-  };
 
-  const handleChange = (e) => {
-    setTiers({ ...tiers, [e.target.id]: parseInt(e.target.value) });
+    const updateTiers = {};
+    for (const element of info) {
+      if (tiers[element.id] != null) {
+        const total = Object.values(tiers[element.id]).reduce(
+          (acc, currentValue) => acc + currentValue,
+          0
+        );
+        const average = total / Object.keys(tiers[element.id]).length;
+        updateTiers[element.id] = average;
+        fetch("http://localhost:5172", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(average),
+        }).then(() => {
+          console.log("done");
+        });
+        console.dir(tiers);
+      }
+    }
+    setTiers(updateTiers);
   };
 
   useEffect(() => {
@@ -62,11 +61,10 @@ function App() {
           info.map((element) => {
             return (
               <Cards
-                name={element.name}
-                title={element.title}
-                imageUrl={element.image_url}
+                element={element}
                 key={element.id}
-                handleChange={handleChange}
+                tiers={tiers[element.id] || {}}
+                setTiers={setTiers}
               />
             );
           })}

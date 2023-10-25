@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 
-const Cards = ({ name, imageUrl, title, handleChange, handleSubmit }) => {
+const Cards = ({ element, tiers, setTiers }) => {
+  const handleChange = (e) => {
+    const updatedTiers = { ...tiers, [e.target.id]: parseInt(e.target.value) };
+    setTiers((prevTiers) => ({ ...prevTiers, [element.id]: updatedTiers }));
+  };
   return (
     <div className="cards-box">
-      <h1>{name}</h1>
-      <img className="image" src={imageUrl} />
-      <p className="title">{title}</p>
+      <h1>{element.name}</h1>
+      <img
+        className="image"
+        src={element.image_url}
+        alt={element.image_alt ? element.image_alt : element.name}
+      />
+      <p className="title">{element.title}</p>
       <form>
         <input
           onChange={handleChange}
