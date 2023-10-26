@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const Cards = ({ element, tiers, setTiers }) => {
+  //keep track of the radio button clicked
   const handleChange = (e) => {
     const updatedTiers = { ...tiers, [e.target.id]: parseInt(e.target.value) };
     setTiers((prevTiers) => ({ ...prevTiers, [element.id]: updatedTiers }));
@@ -13,7 +14,10 @@ const Cards = ({ element, tiers, setTiers }) => {
         src={element.image_url}
         alt={element.image_alt ? element.image_alt : element.name}
       />
-      <p className="title">{element.title}</p>
+      <a className="title" href={element.page_url} target="_blank">
+        {element.title}
+      </a>
+      <p>{element.title_time}</p>
       <form>
         <input
           onChange={handleChange}

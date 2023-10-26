@@ -1,9 +1,13 @@
+#root {
+  background-color: #0c1318;
+}
+/**/
 * {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  background-color: grey;
   font-family: sans-serif;
+  color: white;
 }
 
 .box-wrapper {
@@ -12,6 +16,7 @@
   justify-content: space-evenly;
 }
 .cards-box {
+  background-color: #111b22;
   margin: 10px 20px;
   width: 13rem;
   text-align: center;
@@ -21,7 +26,7 @@
   justify-content: center;
 
   padding: 5px;
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 1rem;
 }
 .image {
@@ -30,9 +35,66 @@
 .tier-buttons {
   margin: 6px;
 }
-.submit-Button {
-  float: right;
-  position: fixed;
 
-  padding: 100px;
+.title {
+  text-decoration: none;
+}
+#root .container .submit-Button {
+  background-color: #41005fd0;
+  padding: 5px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+.submit-Button :active {
+  background-color: aliceblue;
+}
+.heading {
+  text-align: center;
+  background-color: #050b0f;
+  position: sticky;
+  top: 0px;
+}
+.heading .help {
+  float: right;
+  top: 17px;
+  right: 40px;
+  position: fixed;
+  z-index: 1;
+  cursor: pointer;
+}
+@media screen and (width<486px) {
+  .heading {
+    text-align: left;
+    font-size: 13px;
+  }
+  .heading .help {
+    right: 0px;
+    top: 0px;
+  }
+}
+.container .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 10px 10px black;
+  display: block;
+}
+.popup h2 {
+  text-align: center;
+  margin-bottom: 5px;
+  color: black;
+}
+.popup-p {
+  margin-bottom: 5px;
+  color: black;
+}
+strong {
+  color: black;
 }
