@@ -19,26 +19,9 @@ function App() {
     e.preventDefault();
 
     const updateTiers = {};
-    for (const element of info) {
-      if (tiers[element.id] != null) {
-        const total = Object.values(tiers[element.id]).reduce(
-          (acc, currentValue) => acc + currentValue,
-          0
-        );
-        const average = total / Object.keys(tiers[element.id]).length;
-        updateTiers[element.id] = average;
-        /* fetch("http://localhost:5172", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(average),
-        }).then(() => {
-          console.log("done");
-        });
-        */
-        console.dir(tiers);
-      }
-    } //Set tiers to now update tiers
-    setTiers(updateTiers);
+
+    setTiers(tiers);
+    console.dir(tiers);
   };
   //shuffle array of objects data
   const shuffle = (arr) => {

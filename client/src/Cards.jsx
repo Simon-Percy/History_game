@@ -76,7 +76,7 @@ const Cards = ({ element, tiers, setTiers }) => {
         <input
           onChange={handleChange}
           type="radio"
-          id="6"
+          id="tier7"
           className="tier-buttons"
           name="tiers"
           value="7"
