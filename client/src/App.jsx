@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     async function fetchfigures() {
       try {
-        const response = await fetch("http://localhost:5172/");
+        const response = await fetch("http://localhost:3000/");
         if (!response.ok) {
           return `Error : Status : ${response.status}`;
         }
