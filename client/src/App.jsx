@@ -12,16 +12,35 @@ function App() {
   /*tiers for rating*/
   const [tiers, setTiers] = useState({});
   //popup at initial render
-  let help = document.getElementById("popup");
+  const help = document.getElementById("popup");
 
   //when submitting change update the tier of elements to the new average
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const updateTiers = {};
 
     setTiers(tiers);
-    console.dir(tiers);
+    try {
+      const response = await fetch(
+        "https://history-survey-server.vercel.app/",
+        {
+          method: "POST",
+          headers: {
+            "content-Type": "application/json",
+          },
+          body: JSON.stringify(tiers),
+        }
+      );
+
+      if (response.ok) {
+        console.dir(tiers);
+      } else {
+        console.error("Error:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
   };
   //shuffle array of objects data
   const shuffle = (arr) => {
@@ -36,7 +55,9 @@ function App() {
   useEffect(() => {
     async function fetchfigures() {
       try {
-        const response = await fetch("http://localhost:3000/");
+        const response = await fetch(
+          "https://history-survey-server.vercel.app/"
+        );
         if (!response.ok) {
           return `Error : Status : ${response.status}`;
         }

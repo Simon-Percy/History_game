@@ -1,15 +1,19 @@
 //import wiki from "wikijs"; //simplified wikipedia API
+//import mysql from "mysql";
 import express from "express";
-import mysql from "mysql";
-const app = express();
+import fs from "fs";
+import bodyParser from "body-parser";
 
+const app = express();
+const port = process.env.PORT || 3000;
 //connecting to database
-const db = mysql.createPool({
+/*const db = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "password",
   database: "hfgame",
 });
+/*
 //array with historical figures names
 
 const figures = [
@@ -186,7 +190,7 @@ Promise.all(figurePromises)
 //select all inserted data from the database
 
 const sqlSelect = "SELECT * FROM hf";
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   /*db.query(sqlSelect, (err, results) => {
     if (err) {
       console.error("Database error: " + err.message);
@@ -194,6 +198,7 @@ app.use("/", (req, res) => {
       return;
     }
 */
+
   res.json([
     {
       id: 1,
@@ -1216,7 +1221,27 @@ app.use("/", (req, res) => {
   ]);
 });
 //});
+app.use(bodyParser.json());
+app.post("/", (req, res) => {
+  try {
+    const tiers = req.body;
 
-app.listen(3000, () => {
-  console.log("Its running");
+    let ratings = [];
+    if (fs.existsSync("ratings.json")) {
+      const data = fs.readFileSync("ratings.json", "utf-8");
+      ratings = JSON.parse(data);
+    }
+    ratings.push(tiers);
+    fs.writeFileSync("ratings.json", JSON.stringify(ratings));
+
+    console.log("Success");
+    res.send("Rating data received and saved");
+  } catch (error) {
+    console.log("Error", error);
+    res.status(500).send("Error occurred while saving the rating data");
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Its running on ${port}`);
 });
