@@ -189,7 +189,7 @@ Promise.all(figurePromises)
 
 //select all inserted data from the database
 
-const sqlSelect = "SELECT * FROM hf";
+//const sqlSelect = "SELECT * FROM hf";
 app.get("/", (req, res) => {
   /*db.query(sqlSelect, (err, results) => {
     if (err) {
@@ -1222,6 +1222,7 @@ app.get("/", (req, res) => {
 });
 //});
 app.use(bodyParser.json());
+
 app.post("/", (req, res) => {
   try {
     const tiers = req.body;
@@ -1231,7 +1232,11 @@ app.post("/", (req, res) => {
       const data = fs.readFileSync("ratings.json", "utf-8");
       ratings = JSON.parse(data);
     }
+
+    // Append the new tiers data to the end of the "ratings" array
     ratings.push(tiers);
+
+    // Write the updated "ratings" array back to the JSON file
     fs.writeFileSync("ratings.json", JSON.stringify(ratings));
 
     console.log("Success");
@@ -1243,5 +1248,5 @@ app.post("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Its running on ${port}`);
+  console.log(`It's running on ${port}`);
 });

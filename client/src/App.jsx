@@ -22,16 +22,11 @@ function App() {
 
     setTiers(tiers);
     try {
-      const response = await fetch(
-        "https://history-survey-server.vercel.app/",
-        {
-          method: "POST",
-          headers: {
-            "content-Type": "application/json",
-          },
-          body: JSON.stringify(tiers),
-        }
-      );
+      const response = await fetch("http://localhost:3000/", {
+        method: "POST",
+
+        body: JSON.stringify(tiers),
+      });
 
       if (response.ok) {
         console.dir(tiers);
