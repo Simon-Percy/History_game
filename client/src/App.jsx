@@ -20,13 +20,17 @@ function App() {
 
     const updateTiers = {};
 
-    setTiers(tiers);
     try {
-      const response = await fetch("http://localhost:3000/", {
-        method: "POST",
-
-        body: JSON.stringify(tiers),
-      });
+      const response = await fetch(
+        "https://getpantry.cloud/apiv1/pantry/dba20183-16a1-4692-8b6f-d7a5e653cf21/basket/historicalSurvey",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(tiers),
+        }
+      );
 
       if (response.ok) {
         console.dir(tiers);
