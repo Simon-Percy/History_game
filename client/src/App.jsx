@@ -5,21 +5,22 @@ import { TiTick } from "react-icons/ti";
 import { BiHelpCircle } from "react-icons/bi";
 
 function App() {
-  /*loading screen*/
+  //loading screen
   const [loading, setLoading] = useState(true);
-  /*info being fetched from API*/
+  //info being fetched from API
   const [info, setInfo] = useState(null);
-  /*tiers for rating*/
+  //tiers for rating
   const [tiers, setTiers] = useState({});
-  //popup at initial render
+  //popup with helpful info at initial render
   const help = document.getElementById("popup");
+  //onSubmit each submit will get a unique token
+  const token = Math.random().toString(36).substring(1, 5);
 
-  //when submitting change update the tier of elements to the new average
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updateTiers = {};
-
+    const updatedTiers = {};
+    //send data to online JSON cloud storage
     try {
       const response = await fetch(
         "https://getpantry.cloud/apiv1/pantry/dba20183-16a1-4692-8b6f-d7a5e653cf21/basket/historicalSurvey",
@@ -28,12 +29,12 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(tiers),
+          body: JSON.stringify({ [token]: { tiers } }),
         }
       );
 
       if (response.ok) {
-        console.dir(tiers);
+        console.log(tiers);
       } else {
         console.error("Error:", response.status, response.statusText);
       }
@@ -69,7 +70,6 @@ function App() {
       }
     }
     fetchfigures();
-
     setLoading(false);
   }, []);
 
@@ -136,12 +136,7 @@ function App() {
         {info &&
           info.map((element) => {
             return (
-              <Cards
-                element={element}
-                key={element.id}
-                tiers={tiers[element.id] || {}}
-                setTiers={setTiers}
-              />
+              <Cards element={element} key={element.id} setTiers={setTiers} />
             );
           })}
         <button className="submit-Button" type="submit">

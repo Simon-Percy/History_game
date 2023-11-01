@@ -65,16 +65,7 @@
   z-index: 1;
   cursor: pointer;
 }
-@media screen and (width<486px) {
-  .heading {
-    text-align: left;
-    font-size: 13px;
-  }
-  .heading .help {
-    right: 0px;
-    top: 0px;
-  }
-}
+
 .container .popup {
   position: fixed;
   top: 50%;
@@ -97,4 +88,28 @@
 }
 strong {
   color: black;
+}
+@media screen and (width<486px) {
+  .heading .help {
+    right: 0px;
+    top: 0px;
+  }
+  .container {
+    align-self: center;
+  }
+  .container .popup {
+    justify-content: center;
+    width: 90%;
+    font-size: 14px;
+  }
+}
+@media screen and (width<286px) {
+  .heading h2 {
+    text-align: left;
+    font-size: 20px;
+  }
+  .heading h1 {
+    text-align: left;
+    font-size: 18px;
+  }
 }

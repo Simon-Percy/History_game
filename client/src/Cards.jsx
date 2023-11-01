@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-
-const Cards = ({ element, tiers, setTiers }) => {
+const Cards = ({ element, setTiers }) => {
   //keep track of the radio button clicked
   const handleChange = (e) => {
     const updatedTiers = {
       [e.target.id]: parseInt(e.target.value),
     };
-    setTiers((prevTiers) => ({ ...prevTiers, [element.id]: updatedTiers }));
+
+    setTiers((prevTiers) => ({
+      ...prevTiers,
+      [element.id]: updatedTiers,
+    }));
   };
   return (
     <div className="cards-box">
+      {" "}
+      {/*details for each figure to display*/}
       <h1>{element.name}</h1>
       <img
         className="image"
