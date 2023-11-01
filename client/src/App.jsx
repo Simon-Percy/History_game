@@ -21,6 +21,7 @@ function App() {
 
     const updatedTiers = {};
     //send data to online JSON cloud storage
+    alert("Submitted");
     try {
       const response = await fetch(
         "https://getpantry.cloud/apiv1/pantry/dba20183-16a1-4692-8b6f-d7a5e653cf21/basket/historicalSurvey",
