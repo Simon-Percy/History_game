@@ -192,14 +192,26 @@ Promise.all(figurePromises)
 //select all inserted data from the database
 
 //const sqlSelect = "SELECT * FROM hf";
+/*db.query(sqlSelect, (err, results) => {
+  if (err) {
+    console.error("Database error: " + err.message);
+    res.status(500).send("Database error: " + err.message);
+    return;
+  }
+  */
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://historicalfigure-survey.vercel.app/"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  next();
+});
+
+// Your API endpoints
 app.get("/", (req, res) => {
-  /*db.query(sqlSelect, (err, results) => {
-    if (err) {
-      console.error("Database error: " + err.message);
-      res.status(500).send("Database error: " + err.message);
-      return;
-    }
-*/
+  // Handle GET requests here
 
   res.json([
     {
@@ -1170,6 +1182,7 @@ app.get("/", (req, res) => {
       page_url: "https://en.wikipedia.org/wiki/Douglas_MacArthur",
       title_time: null,
     },
+
     {
       id: 96,
       name: "Diogenes",
@@ -1222,33 +1235,6 @@ app.get("/", (req, res) => {
     },
   ]);
 });
-//});
-app.use(bodyParser.json());
-
-app.post("/", (req, res) => {
-  try {
-    const tiers = req.body;
-
-    let ratings = [];
-    if (fs.existsSync("ratings.json")) {
-      const data = fs.readFileSync("ratings.json", "utf-8");
-      ratings = JSON.parse(data);
-    }
-
-    // Append the new tiers data to the end of the "ratings" array
-    ratings.push(tiers);
-
-    // Write the updated "ratings" array back to the JSON file
-    fs.writeFileSync("ratings.json", JSON.stringify(ratings));
-
-    console.log("Success");
-    res.send("Rating data received and saved");
-  } catch (error) {
-    console.log("Error", error);
-    res.status(500).send("Error occurred while saving the rating data");
-  }
-});
-
 app.listen(port, () => {
   console.log(`It's running on ${port}`);
 });
